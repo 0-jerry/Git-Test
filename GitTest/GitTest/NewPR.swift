@@ -6,5 +6,5 @@
 //
 
 class NewPR {
-    func ruleTest() {}
+    private func set() {}
 }
