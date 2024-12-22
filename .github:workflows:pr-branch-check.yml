@@ -1,0 +1,25 @@
+name: PR Branch Check
+
+on:
+  pull_request:
+    types: [opened, reopened, edited, synchronize]
+    branches: 
+      - main   # main 브랜치로의 PR만 체크
+
+jobs:
+  check-branch:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check source branch
+        env:
+          HEAD_REF: ${{ github.head_ref }}
+          BASE_REF: ${{ github.base_ref }}
+        run: |
+          if [ "$BASE_REF" == "main" ] && [ "$HEAD_REF" != "develop" ]; then
+            echo "❌ PRs to main branch must come from develop branch"
+            echo "Current: $HEAD_REF -> $BASE_REF"
+            exit 1
+          else
+            echo "✅ Branch check passed"
+            echo "Current: $HEAD_REF -> $BASE_REF"
+          fi
