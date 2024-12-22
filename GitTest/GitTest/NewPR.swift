@@ -6,5 +6,6 @@
 //
 
 class NewPR {
-    let newnewnew = ""
+
+    let develop = ""
 }
