@@ -2,36 +2,27 @@ name: PR Branch Check
 
 on:
   pull_request:
-    types: [opened, reopened, edited, synchronize]
     branches: 
-      - main
+      - main   # main 브랜치로 가는 PR만 체크
 
 jobs:
   check-branch:
     runs-on: ubuntu-latest
+    # main 브랜치로 가는 PR인 경우에만 실행
+    if: github.base_ref == 'main'
     steps:
-      - name: Check PR source branch
+      - name: Check source branch
         uses: actions/github-script@v7
         with:
           script: |
             const head = context.payload.pull_request.head.ref;
             const base = context.payload.pull_request.base.ref;
             
-            if (base === 'main' && head !== 'develop') {
+            if (head !== 'develop') {
               core.setFailed(`
                 🚫 Invalid Branch Configuration
                 
-                - Source branch: ${head}
-                - Target branch: ${base}
-                
                 Only PRs from 'develop' branch to 'main' branch are allowed.
-                Please change your PR's base branch to 'develop'.
-              `);
-            } else {
-              console.log(`
-                ✅ Valid Branch Configuration
-                
-                - Source branch: ${head}
-                - Target branch: ${base}
+                Your PR: ${head} -> ${base}
               `);
             }
