@@ -8,4 +8,7 @@
 class NewPR {
 
     let develop = ""
+    
+    let actionCheck = ""
+    
 }
