@@ -6,5 +6,5 @@
 //
 
 class NewPR {
-    private func set() {}
+    let develop = ""
 }
